@@ -1,40 +1,42 @@
 /*Filename: goldbach.c | My appoach to this problem*/
 
+
+#include <stdint.h>
 #include <stdio.h>
 
-int prime(int num) {
-    int i, flag = 1;
-    for(i = 2 ; num > (i/2) ; i++) { // Goes through every possible divisor the given number 
-            if (num % i == 0) {
-                flag = 0;
-            } 
+
+
+int primes(int64_t num) {
+   int64_t i, flag = 1; 
+   for(i = 2 ; i < num ; i++) {
+          if (num % i == 0) {
+             flag = 0;
+          }
     }
     return flag;
-}   
-
-
+}
 
 
 
 
 int main() {
-    int user_input, flag;
-    while(1) {
-        printf("Enter your number: ");
-        scanf("%d", &user_input);
-        if (user_input == 0) {
-            break;
-        }
-        if (user_input < 2) {
-            continue;
-        }
-        flag = prime(user_input); 
-        if (flag == 1) { // 1 is the flag's value when the given number is prime
-            printf("%d is prime\n", user_input);
-        }
-        else {
-            printf("%d is not prime\n", user_input);
-        }
-    }
+    while (1) {
+          int64_t userin, flag;
+          printf("Enter your number: ");
+          scanf("%llu", &userin);
+          if (userin == 0 || userin == 1) {
+             break;   
+          }
+          else if (userin < 2) {
+               continue;
+          }
+          flag = primes(userin);
+          if (flag == 1) {
+             printf("%llu is prime\n", userin);
+          }
+          else {
+               printf("%llu is not prime\n", userin);     
+          }
+    }    
     return 0; 
 }
