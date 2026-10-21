@@ -23,19 +23,19 @@ int main() {
     while (1) {
           int64_t userin, flag;
           printf("Enter your number: ");
-          scanf("%llu", &userin);
-          if (userin == 0 || userin == 1) {
+          scanf("%lld", &userin);
+          if (userin == 0) {
              break;   
           }
-          else if (userin < 2) {
+          if(userin < 2) {
                continue;
           }
           flag = primes(userin);
-          if (flag == 1) {
-             printf("%llu is prime\n", userin);
-          }
+         if (flag == 1) {
+            printf("%lld is prime\n", userin);
+         }
           else {
-               printf("%llu is not prime\n", userin);     
+               printf("%lld is not prime\n", userin);     
           }
     }    
     return 0; 
