@@ -6,7 +6,8 @@
 
 
 int primes(int64_t num) {  // Συνάρτηση primes που υπολογίζει πρώτους  
-   int64_t i, flag = 1;
+   int64_t i = 1;
+   int flag = 1;
    if (num == 2) {
       flag == 1;
    }
@@ -26,6 +27,18 @@ int primes(int64_t num) {  // Συνάρτηση primes που υπολογίζ�
     }
     return flag;
 }
+
+
+int gold(int64_t num) {
+   int flag = 1;
+   if (num == 4) {
+      flag == 2;   
+   }
+   return flag;
+}
+
+
+
 
 
 int main () {
@@ -50,6 +63,18 @@ int main () {
          }
          else {
             printf("%llu is not prime\n", userin1);
+         }
+      }
+      if (userin2 == 'g') {
+         if (userin1 % 2 != 0) {
+            printf("Goldbach's conjecture is applicable only to even numbers greater than 2!");
+         }
+         if (userin1 < 2) {
+            continue;
+         }
+         flag = gold(userin1);
+         if (flag == 2) {
+            printf("%llu can be written as 2 + 2\n", userin1);
          }
       }
    }
