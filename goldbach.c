@@ -78,15 +78,11 @@ int main () {
 			break;
 		}
       		printf("Enter your option ('p' for primes or 'g' for goldbach): " );
-      		uint64_t scanner2 = scanf(" %c", &userin2);
+      		scanf("%c", &userin2);
+		uint64_t scanner2 = scanf("%c", &userin2);
 		if (scanner2 == end_c) {
 			printf("EOF detected, exiting\n");
 			return 0;
-			break;
-		}
-		if (userin2 != 'p' || userin2 != 'g') {
-			printf("Invalid choice: expected 'p' or 'g'\n");
-			return 1;
 			break;
 		}
 		if (userin2 == 'p') {
@@ -104,7 +100,7 @@ int main () {
             			printf("%llu is not prime\n", userin1);
          		}
       		}
-		if (userin2 == 'g') {
+		else if (userin2 == 'g') {
 			uint64_t p1;  // Ορίζουμε όπως και στην συνάρτηηση gold τις μεταβλητές p1, p2 , το άθροισμα των οποιλων ειναι ο userin1
 			uint64_t p2;
 			if (userin1 == 4) { // Έχομυε ξεχωριστή περίπτωση για το 4 καθώς ο μικρότερος συνδυασμός πρώτων είναι μόνο το 2 όπου δημιουργελι θέμα στην συναρτησλη μας gold όπως αναφέραμε
@@ -118,6 +114,11 @@ int main () {
 				p2 = userin1 - p1;
 				printf("%llu = %llu + %llu\n", userin1, p1, p2);
 			}
+		}
+		else {
+			printf("Invalid choice: expected 'p' or 'g'\n");
+			return 1;
+			break;
 		}
    	}
 	return 0;
