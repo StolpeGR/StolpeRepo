@@ -1,6 +1,5 @@
 /*Filename: goldbach.c | My appoach to this problem*/
 
-
 #include <stdio.h>
 #include <stdint.h> // Χργσιμοποιούμε αυτή τη βιβλιοθήκη γιατί έχουμε δηλώσει μεταβλητές των 64bit
 
@@ -89,6 +88,7 @@ int main () {
 			else {
 				p1 = gold(userin1);
 				p2 = userin1 - p1;
+				printf("%lu\n", p1);
 				printf("%lu = %lu + %lu\n", userin1, p1, p2);
 			}
 		}
