@@ -5,18 +5,19 @@
 
 
 int primes(uint64_t num) {  // Συνάρτηση primes που υπολογίζει πρώτους  
-	uint64_t i, flag = 1;
+	uint64_t i;
+	int flag = 1;
    	if (num == 2) {
-      		flag == 1;
+      		flag = 1;
    	}
    	if (num == 3) {
-      		flag == 1;
+      		flag = 1;
    	}
    	if (num % 2 == 0) {
-      		flag == 0;
+      		flag = 0;
    	}
    	if (num % 3 == 0) {
-      		flag == 0;
+      		flag = 0;
    	}
    	for(i = 3 ; i*i <= num ; i++) { // Βρόχος που ελέγχει αν υπάρχει διαιρέτης του num 
        		if (num % i == 0) {
@@ -88,7 +89,6 @@ int main () {
 			else {
 				p1 = gold(userin1);
 				p2 = userin1 - p1;
-				printf("%llu\n", p1);
 				printf("%llu = %llu + %llu\n", userin1, p1, p2);
 			}
 		}
