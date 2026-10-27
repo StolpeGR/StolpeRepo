@@ -63,14 +63,19 @@ int main () {
       		printf("Enter your number: ");
       		uint64_t scanner1 = scanf("%llu", &userin1);
 		if (scanner1 == end_i) {
-                        printf("EOF detected, exiting\n");
+			printf("EOF detected, exiting\n");
 			return 0;
+			break;
                 }
+		else if (scanner1 != 1) {
+			printf("Invalid input: expected an integer\n");
+			return 1;
+			break;
+		}
       		printf("Enter your option ('p' for primes or 'g' for goldbach): " );
       		char scanner2 = scanf(" %c", &userin2);
 		if (scanner2 == end_c) {
 			printf("EOF detected, exiting\n");
-			return 0;
 		}
 		if (userin2 == 'p') {
          		if (userin1 == 0) {
