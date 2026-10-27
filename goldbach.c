@@ -81,6 +81,8 @@ int main () {
       		uint64_t scanner2 = scanf(" %c", &userin2);
 		if (scanner2 == end_c) {
 			printf("EOF detected, exiting\n");
+			return 0;
+			break;
 		}
 		if (userin2 != 'p' || userin2 != 'g') {
 			printf("Invalid choice: expected 'p' or 'g'\n");
