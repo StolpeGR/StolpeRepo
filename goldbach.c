@@ -58,7 +58,7 @@ int main () {
       		int flag;
       		char userin2;
       		printf("Enter your number: ");
-      		scanf("%lu", &userin1); 
+      		scanf("%llu", &userin1); 
       		printf("Enter your option ('p' for primes or 'g' for goldbach): " );
       		scanf(" %c", &userin2);
       		if (userin2 == 'p') {
@@ -70,10 +70,10 @@ int main () {
          		}
          		flag = primes(userin1);
          		if (flag == 1) {
-            			printf("%lu is prime\n", userin1);
+            			printf("%llu is prime\n", userin1);
          		}
          		else {
-            			printf("%lu is not prime\n", userin1);
+            			printf("%llu is not prime\n", userin1);
          		}
       		}
 		if (userin2 == 'g') {
@@ -88,8 +88,8 @@ int main () {
 			else {
 				p1 = gold(userin1);
 				p2 = userin1 - p1;
-				printf("%lu\n", p1);
-				printf("%lu = %lu + %lu\n", userin1, p1, p2);
+				printf("%llu\n", p1);
+				printf("%llu = %llu + %llu\n", userin1, p1, p2);
 			}
 		}
    	}
