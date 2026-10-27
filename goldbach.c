@@ -5,8 +5,8 @@
 #include <inttypes.h> // Χργσιμοποιούμε αυτή τη βιβλιοθήκη γιατί έχουμε δηλώσει μεταβλητές των 64bit
 
 
-int primes(int64_t num) {  // Συνάρτηση primes που υπολογίζει πρώτους  
-	int64_t i, flag = 1;
+int primes(uint64_t num) {  // Συνάρτηση primes που υπολογίζει πρώτους  
+	uint64_t i, flag = 1;
    	if (num == 2) {
       		flag == 1;
    	}
@@ -29,15 +29,15 @@ int primes(int64_t num) {  // Συνάρτηση primes που υπολογίζ�
 
 
 
-int gold(int64_t num) {
-	int64_t p1;
-	int64_t p2 = 3;
-	for( p2 = 3 ; p2 < (num - 3) ; p2 += 2) {
+int gold(uint64_t num) {
+	uint64_t p1;  // Ένας απο τους δύο πρώτους, το άθροισμα των οποιών μας δίνει το num
+	uint64_t p2 = 3;  // Ο άλλος πρώτος αριθμός αρχικοποιείται με την τιμή 3, καθώς ο 2 ειναι άρτιος και θα εμποδίσει την πρώτη συνθήκη if
+	for( p2 = 3 ; p2 < (num - 3) ; p2 += 2) { // Το βήμα του βρόχου ειναι 2 και όχι 1 καθώς έτσι αποφελυγουμε τελείως την πιθανότητα να τύχουμε άρτιο αριθμό
 		if (primes(p2) == 0) {
 			continue;
 		}
 		else {
-			if(primes(num - p2) == 0) {
+			if(primes(num - p2) == 0) {   // Χρήση της προηγούμενηγς συνάρτησης primes για να ελέγξουμε αν οι δύο αριθμοί p1, p2 είναι πρώτοι
 				continue;
 			}
 			else {
@@ -55,7 +55,7 @@ int gold(int64_t num) {
 
 int main () {
 	while(1) {   
-      		int64_t userin1;  // Χρησιμοποιούμε int64_t για αριθμούς που δεν χωράνε σε 32 bit στο δυαδικό
+      		uint64_t userin1;  // Χρησιμοποιούμε int64_t για αριθμούς που δεν χωράνε σε 32 bit στο δυαδικό
       		int flag;
       		char userin2;
       		printf("Enter your number: ");
@@ -66,21 +66,21 @@ int main () {
          		if (userin1 == 0) {
             			break;
          		}
-         		if (userin1 < 2) {
+         		if (userin1 < 2) {  // Για τιμές μικρότερες του δύο ο βρόχος εξετάζει νέες τιμές
             			continue;
          		}
          		flag = primes(userin1);
          		if (flag == 1) {
-            			printf("%llu is prime\n", userin1);
+            			printf("%lu is prime\n", userin1);
          		}
          		else {
-            			printf("%llu is not prime\n", userin1);
+            			printf("%lu is not prime\n", userin1);
          		}
       		}
 		if (userin2 == 'g') {
-			int64_t p1;
-			int64_t p2;
-			if (userin1 == 4) {
+			uint64_t p1;  // Ορίζουμε όπως και στην συνάρτηηση gold τις μεταβλητές p1, p2 , το άθροισμα των οποιλων ειναι ο userin1
+			uint64_t p2;
+			if (userin1 == 4) { // Έχομυε ξεχωριστή περίπτωση για το 4 καθώς ο μικρότερος συνδυασμός πρώτων είναι μόνο το 2 όπου δημιουργελι θέμα στην συναρτησλη μας gold όπως αναφέραμε
 				printf("4 = 2 + 2");
 			}
 			if (userin1 <= 2 || userin1 % 2 != 0) {
@@ -89,7 +89,7 @@ int main () {
 			else {
 				p1 = gold(userin1);
 				p2 = userin1 - p1;
-				printf("%llu = %llu + %llu\n", userin1, p1, p2);
+				printf("%lu = %lu + %lu\n", userin1, p1, p2);
 			}
 		}
    	}
