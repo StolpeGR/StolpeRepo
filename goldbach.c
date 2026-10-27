@@ -54,15 +54,25 @@ int gold(uint64_t num) {
 
 
 int main () {
-	while(1) {   
+	uint64_t end_i = EOF;
+	char end_c = EOF;
+	while(1) {
       		uint64_t userin1;  // Χρησιμοποιούμε uint64_t για αριθμούς που δεν χωράνε σε 32 bit στο δυαδικό
       		int flag;
       		char userin2;
       		printf("Enter your number: ");
-      		scanf("%llu", &userin1); 
+      		uint64_t scanner1 = scanf("%llu", &userin1);
+		if (scanner1 == end_i) {
+                        printf("EOF detected, exiting\n");
+			return 0;
+                }
       		printf("Enter your option ('p' for primes or 'g' for goldbach): " );
-      		scanf(" %c", &userin2);
-      		if (userin2 == 'p') {
+      		char scanner2 = scanf(" %c", &userin2);
+		if (scanner2 == end_c) {
+			printf("EOF detected, exiting\n");
+			return 0;
+		}
+		if (userin2 == 'p') {
          		if (userin1 == 0) {
             			break;
          		}
