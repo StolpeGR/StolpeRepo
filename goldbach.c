@@ -63,7 +63,7 @@ int main () {
       		printf("Give me a number: ");
       		uint64_t scanner1 = scanf("%llu", &userin1); // Αρχικοποίηση ακέραιας μεταβλητής scan για την σύκριση της με την EOF 
 		if (userin1 > 10000000000) {
-			printf("%lli: Number should be in the range [0, 10000000000]\n", userin1);
+			fprintf(stderr, "Number should be in the range [0, 10000000000]\n");
 			return 1;
 			break;
 		}
@@ -72,11 +72,11 @@ int main () {
 			return 0;
 			break;
                 }
-		else if (scanner1 != 1) { // Όταν η scanf αποθηκεύσει με επιτυχία την σωστή τιμή που πρέπει να πάρει, τότε αποθηκέυεται στην μεταβλητή scanner1 η τιμή 1
-			printf("Invalid input: expected an integer\n");
-			return 1;
-			break;
-		}
+		else if (scanner1 != 1) { // Όταν η scanf αποθηκεύσει με επιτυχία την σωστή τιμή που πρέπει να πάρει, τότε αποθηκέυεται στην μεταβλητή scanner1 >
+                        fprintf(stderr, "Invalid input: expected an integer\n");
+                        return 1;
+                        break;
+                }
       		printf("Choose how to test %llu - ('p' for prime, 'g' for goldbach) ", userin1 );
       		scanf("%c", &userin2);
 		uint64_t scanner2 = scanf("%c", &userin2);  // Χρησιμοποιόυμε δύο φορές την scanf, μία για σύγκριση τιμλων με την μεταβλητή scanner2 και μία για σωστλη αποθήκευση char μεταβλητής   
@@ -125,7 +125,7 @@ int main () {
 			}
 		}
 		else {
-			printf("Invalid choice: expected 'p' or 'g'\n");
+			fprintf(stderr, "Invalid choice: expected 'p' or 'g'\n");
 			return 1;
 			break;
 		}
