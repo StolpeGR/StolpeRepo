@@ -107,8 +107,8 @@ int main () {
 				printf("4 = 2 + 2\n");
 				continue;
 			}
-			if (userin1 == 5) { // Πάλι ειδική περίπτωση το 5
-				printf("10 = 5 + 5\n");
+			if (userin1 == 10) {
+				printf("10 = 3 + 7\n");
 				continue;
 			}
 			if (userin1 <= 2 || userin1 % 2 != 0) {
