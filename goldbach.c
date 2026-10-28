@@ -89,6 +89,10 @@ int main () {
          		if (userin1 == 0) {
             			break;
          		}
+			if (userin1 == 1) {
+				printf("1 is not prime\n");
+				continue;
+			}
          		if (userin1 < 2) {  // Για τιμές μικρότερες του δύο ο βρόχος εξετάζει νέες τιμές
             			continue;
          		}
