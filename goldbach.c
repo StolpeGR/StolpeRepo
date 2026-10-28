@@ -63,7 +63,7 @@ int main () {
       		printf("Give me a number: ");
       		uint64_t scanner1 = scanf("%llu", &userin1); // Αρχικοποίηση ακέραιας μεταβλητής scan για την σύκριση της με την EOF 
 		if (userin1 > 10000000000) {
-			printf("Number should be in the range [0, 10000000000]\n");
+			printf("%lli: Number should be in the range [0, 10000000000]\n", userin1);
 			return 1;
 			break;
 		}
@@ -111,7 +111,7 @@ int main () {
 				printf("4 = 2 + 2\n");
 				continue;
 			}
-			if (userin1 == 10) {
+			if (userin1 == 10) { // Ειδκή περίπτωση για το 10 καθώς χωρίς αυτη η έξοδος θα ήταν 10 = 5 + 5
 				printf("10 = 3 + 7\n");
 				continue;
 			}
