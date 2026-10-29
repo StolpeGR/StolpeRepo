@@ -10,7 +10,7 @@ int primes(uint64_t num) {  // Συνάρτηση primes που υπολογίζ
    	if (num == 2) {
       		flag = 1;
    	}
-   	if (num == 3) {      // Έχουμε ξεωριστές περιπτώσεις για τους πρώτους 2 και 3 καθώς δεν ελέγχονται απο τον παρακάτω βρόχο
+   	if (num == 3) {      // Έχουμε ξεχωριστές περιπτώσεις για τους πρώτους 2 και 3 καθώς δεν ελέγχονται απο τον παρακάτω βρόχο
       		flag = 1;
    	}
    	if (num % 2 == 0) {
@@ -62,8 +62,8 @@ int main () {
       		char userin2;
       		printf("Give me a number: ");
       		uint64_t scanner1 = scanf("%llu", &userin1); // Αρχικοποίηση ακέραιας μεταβλητής scan για την σύκριση της με την EOF 
-		if (userin1 > 10000000000) {
-			fprintf(stderr, "Number should be in the range [0, 10000000000]\n");
+		if (userin1 > 10000000000 && scanner1 == 1) { // Χρήσιμοποιούμε τον λογικό τελεστή AND καθώς θέλουμε να εκτωπώσει "Number should be.." στο stderr μόνο όταν η είσοδος είναι αριθμός και όχι πχ γράμματα
+			fprintf(stderr, "Number should be in the range [0, 10000000000]\n"); // Μέσω της fprinf μπορούμε να εκτυπώσουμρ άμεσα στο stderr.
 			return 1;
 			break;
 		}
