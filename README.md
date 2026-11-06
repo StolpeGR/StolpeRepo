@@ -1,6 +1,6 @@
 # Welcome!
 
-My name is Rafael and I am a fist year Computer Science Student at the University of Athens.<br> 
+My name is Rafael and I am a first-year Computer Science Student at the University of Athens.<br> 
 
 This repository is going to be dedicated to my personal projects, mostly written in C.(At least for now)<br>
 
