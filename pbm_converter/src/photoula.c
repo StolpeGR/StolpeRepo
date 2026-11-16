@@ -3,13 +3,14 @@
 #include <stdio.h>
 #include <string.h>
 
-int convert_ppm_to_pgm() {
+void convert_ppm_to_pgm() {
 	int ch;
 	int width;
 	int height;
-	int R;
-	int G;
-	int B;
+	//int R;
+	//int G;
+	//int B;
+	int max;
 	ch  = getchar();
 	if(ch != 'P') fprintf(stderr, "Not a valid tpye");
 	ch = getchar();
@@ -18,21 +19,31 @@ int convert_ppm_to_pgm() {
 	ch = getchar();
 	if(ch == '#') putchar('\r');
 	width = getchar();
-	ch = getchar();
+	puthcar(' ');
 	height = getchar();
+	int rdb[height][width];
 	putchar('\r');
+	while((ch = gecthar()) != ' ') {
+		max = ch; 
+	}
 	putchar('\r');
-	//Ακουλουθεί αλγόριθμος για τα πρώτα πέντε pixel
-	R = getchar(); // Ο πρώτος χαρακτήρας σίγουρα είναι ο δείκτης R (Red)
-	ch = getchar(); // Ο δεύτερος χαρακτήρας σίγουρα ειναι το κενό ' '
-	
 	/*Χρησιμοποιηούμε nested loop προκειμένου να διατρέξομε όλα τα pixels, 
 	πέντε φορές την κάθε φορά, ανά στήλες (κάθετα).*/
 	
+	// Πρώτη στήλη απο pixel
+	for(int i = 1 ; i <= height ; i++) {
+		for(int j = 1 ; j <= (11*height + 2(height - 1)) ; j++) { // Αν μετρήσουμε τα κένα που έχει η πρώτη γραμμήαπό pixel, σε κάθε στήλη είναι ακριβώς 11
+			if((ch = getchar()) != 0) { // Για το παραπάνω ακραίο βλέπε readme
+				rdb[i - 1][k] = ch;
+			else {
+				continue;
+			}
+		putchar('\r');
+		}
+	}
 	
 	
-	
-	for(int i = 1 ; i <= height ; i++) { // Διατρέχομυε όλες τι γραμμές
+    /*	for(int i = 1 ; i <= height ; i++) { // Διατρέχομυε όλες τι γραμμές
 		for(int j = 1 ; j <= 4; j++) { // Διατρέχομυε όλα τα περιεχόμενα των γραμμών.
 			if(ch == ' ') { // Μεταξύ των κωδικών RGB ενδέχεται να υπάρχει κενό, επομένως εκτπώνουμε όπου χρειάζεται κενό για να συνεχίσουμε την αναζήτηση.
 				putchar(' ');
@@ -49,7 +60,7 @@ int convert_ppm_to_pgm() {
 		R = getchar(); // Όταν τελείωσουμε με την πρώτη στήλη, ξανά ο πρώτος χαρακτήρας θα είναι κωδικός R.
 		}
 	}
-}
+} */
 
 
 
