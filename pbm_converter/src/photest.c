@@ -24,6 +24,10 @@ int main(int argc, char * argv[]) {
                 return 1;
             }
         }
+        else {
+            fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]");
+            return 1;
+        }
 
     }
 
