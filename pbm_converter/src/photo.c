@@ -16,36 +16,51 @@ int rgb_formula(int R, int G, int B) {
 
 
 
-
-void convert_ppm_to_pgm() {
+int convert_ppm_to_pgm() {
     int ch;
     ch = getchar();
-    if(ch != 'P') fprintf(stderr, "Wrong!\n");
+    if(ch != 'P') {
+        fprintf(stderr, "Input error!\n");
+        return 1;
+    }
     ch = getchar();
-    if(ch != '3') fprintf(stderr, "Wronf number!\n");
+    if(ch != '3') {
+        fprintf(stderr, "Input error!\n");
+        return 1;
+    }
     while(1) {
         ch = getchar();
         if(ch == '#') {
             while((ch = getchar()) != EOF && ch != '\n') continue;
         }
-        else if(ch == '\r' || ch == '\t' || ch == '\r' || ch == '\n') continue;
+        else if(ch == '\r' || ch == '\t' || ch == ' ' || ch == '\n') continue;
         else break;
     }
 
 
 
     int width = 0;
-    ch = getchar();
     while(ch >= '0' && ch <= '9') {
         width = width*10 + (ch -'0');
         ch = getchar();
     }
+    while(1) {
+        if(ch == '#') {
+            while((ch = getchar()) != EOF && ch != '\n') continue;
+        }
+        else if(ch == '\r' || ch == '\t' || ch == ' ' || ch == '\n')  {
+            ch = getchar();
+        }
+        else break;
+    }
+
+
+
 
 
     int height = 0;
-    ch = getchar();
     while(ch >= '0' && ch <= '9') {
-        height = width*10 + (ch - '0')
+        height = height*10 + (ch - '0')
         ch = getchar();
     }
 
@@ -57,25 +72,6 @@ void convert_ppm_to_pgm() {
         max = max*10 + (ch - '0');
         ch = getchar();
     }
-
-int *rgb = malloc(3*sizeof(int));
-
-    if(max >= 0 && max <= 9) {
-        for(int i = 0 ; i < height*((5*width) + 2*(width-1)) ; i++) {
-            ch = getchar();
-            if(ch != '\r' || ch != '\t' || ch != '\n' || ch != ' ')
-            /*for(int j = 0 ; j < ((5*width) + 2*(width-1)) ; j++) {
-                ch = getchar()
-                if(ch != '\r' || ch != '\t' || ch != '\n' || ch != ' ') {
-
-                }
-            }*/
-        }
-    }
-
-
-    
-
 
 }
 
