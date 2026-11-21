@@ -2,12 +2,25 @@
 #include <string.h>
 #include <stdlib.h>
 
-int count = 1;
 
 
 int rgb_formula(int R, int G, int B) {
-    answer = ((299*R) + (587*G) + (114*B)) / 1000;
+    int answer = (((299*R) + (587*G) + (114*B)) / 1000);
     return answer;
+}
+
+
+void pgm_to_ppm_error() {
+	int ch;
+	if(ch != 'P') {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+	ch = getchar();
+	if(ch == '2' || ch == '5') {
+		fprintf(stderr, "Unsupported conversion\n")
+		exit(1);
+	}
 }
 
 
@@ -16,17 +29,60 @@ int rgb_formula(int R, int G, int B) {
 
 
 
-int convert_ppm_to_pgm() {
+
+
+
+
+
+
+
+
+
+
+
+/*void ppmAsci_to_ppmBinary() {
+	int ch;
+	ch = getchar();
+	if(ch != 'P') {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+	ch = getchar();
+	if(ch != '3') {
+		fprintf(stderr, "Input error\n");
+		exit(1);
+	}
+	if(ch == '1', )
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void convert_ppm_to_pgm() {
     int ch;
     ch = getchar();
     if(ch != 'P') {
         fprintf(stderr, "Input error!\n");
-        return 1;
+        exit(1);
     }
     ch = getchar();
     if(ch != '3') {
         fprintf(stderr, "Input error!\n");
-        return 1;
+        exit(1);
     }
     while(1) {
         ch = getchar();
@@ -36,6 +92,9 @@ int convert_ppm_to_pgm() {
         else if(ch == '\r' || ch == '\t' || ch == ' ' || ch == '\n') continue;
         else break;
     }
+
+
+
 
 
 
@@ -60,7 +119,7 @@ int convert_ppm_to_pgm() {
 
     int height = 0;
     while(ch >= '0' && ch <= '9') {
-        height = height*10 + (ch - '0')
+        height = height*10 + (ch - '0');
         ch = getchar();
     }
 
@@ -86,15 +145,22 @@ int main(int argc, char *argv[]) {
 	μπορούμε να μειώσουμε τον αριθμό των arguments κατά 1 και να α"υξήσουμε" το argv κατά 1.*/
 	argc--; 
 	argv++;
+	if(argc == 0) {
+		fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
+		return 1;
+	}
 	while(argc > 0) {
 		for(int i = 0 ; i < argc ; i++) { // Είναι αναγκαστικό στα ορίσματά μας να υπάρχει το "--to". Για αυτό υλοποιούμε τον παραπάνω βρόχο.
 			if(strcmp(argv[i], "--to") == 0) {
 				flag = 1;
-				break;
+			}
+			if(strcmp(argv[i], "--help") == 0) {
+				printf("Usage: Welcome to photoula. This is a short manual of the program's functionality");
+				return 0;
 			}
 		}
 		if (flag == 0) {
-			fprintf(stderr,"Usage");
+			fprintf(stderr,"Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
 			return 1;
 		}
 		/* Ακολουθεί έλεγχος για τα ορίσματα που δίνει ο χρήστης. Συχνή είναι η χρήση της συνάρτησης strcmp(). 
@@ -102,17 +168,33 @@ int main(int argc, char *argv[]) {
 		if(strcmp(*argv, "--to") == 0) {
 			argc--;
 			argv++;
+			if(argc == 0) {
+				fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
+				return 1;
+			}
 			if(strcmp(*argv, "ppm") == 0) {
-				convert_ppm_to_pgm();	
+				pgm_to_ppm_error();
 			}
 			else if(strcmp(*argv, "pgm") == 0) {
+				if(argc > 1) {
+					if(strcmp(argv[1], "--to") == 0) {
+						if(strcmp(argv[2], "pgm") == 0) {
+							fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
+							return 1;
+						}
+					}
+					if((strcmp(argv[1], "--encoding") != 0) || (strcmp(argv[1],"--threshold") == 0)) {
+						fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
+						return 1;
+					}
+				}
 				printf("PGM!\n");
 			}
 			else if(strcmp(*argv, "pbm") == 0) {
 				printf("PBM!\n");
 			}
 			else {
-				fprintf(stderr, "Usage:\n");
+				fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
 				return 1;
 			}
 		}
@@ -126,12 +208,13 @@ int main(int argc, char *argv[]) {
 				printf("assci!!\n");
 			}
 			else {
-				fprintf(stderr, "Usage:\n");
+				fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
 				return 1;
 			}
 		}
 		else {
-			fprintf(stderr, "Usage:\n");
+			fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
+			return 1;
 		}
 		argc--;
 		argv++;
