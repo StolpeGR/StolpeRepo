@@ -10,15 +10,31 @@ int rgb_formula(int R, int G, int B) {
 }
 
 
-void pgm_to_ppm_error() {
+int thresholdT(int max_decoding) {
+	int T = (max_decoding + 1) / 2;
+	return T;
+} 
+
+
+
+
+
+
+
+
+
+
+
+void unsupported_conversion_error() {
 	int ch;
+	ch = getchar();
 	if(ch != 'P') {
 		fprintf(stderr, "Input error!\n");
 		exit(1);
 	}
 	ch = getchar();
-	if(ch == '2' || ch == '5') {
-		fprintf(stderr, "Unsupported conversion\n")
+	if(ch == '2' || ch == '5' || ch == '1' || ch == '3') {
+		fprintf(stderr, "Unsupported conversion\n");
 		exit(1);
 	}
 }
@@ -173,7 +189,7 @@ int main(int argc, char *argv[]) {
 				return 1;
 			}
 			if(strcmp(*argv, "ppm") == 0) {
-				pgm_to_ppm_error();
+				unsupported_conversion_error();
 			}
 			else if(strcmp(*argv, "pgm") == 0) {
 				if(argc > 1) {
@@ -191,7 +207,12 @@ int main(int argc, char *argv[]) {
 				printf("PGM!\n");
 			}
 			else if(strcmp(*argv, "pbm") == 0) {
-				printf("PBM!\n");
+				unsupported_conversion_error();
+				if(argc > 1) {
+					if(strcmp(argv[1], "--threshold") == 0) {
+						printf("Threshold!!!");
+					}
+				}
 			}
 			else {
 				fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
