@@ -76,6 +76,65 @@ int convert_ppm_to_pgm() {
 }
 
 
-int main() {
-    return 0;
+
+
+
+int main(int argc, char *argv[]) {
+	//char *programname = argv[0]; 
+	int flag = 0;
+	/*Επειδή αποθηκεύσαμε στον pointer programnmer το όνομα του προγράμματος που βρίσκεται στο argv[0], 
+	μπορούμε να μειώσουμε τον αριθμό των arguments κατά 1 και να α"υξήσουμε" το argv κατά 1.*/
+	argc--; 
+	argv++;
+	while(argc > 0) {
+		for(int i = 0 ; i < argc ; i++) { // Είναι αναγκαστικό στα ορίσματά μας να υπάρχει το "--to". Για αυτό υλοποιούμε τον παραπάνω βρόχο.
+			if(strcmp(argv[i], "--to") == 0) {
+				flag = 1;
+				break;
+			}
+		}
+		if (flag == 0) {
+			fprintf(stderr,"Usage");
+			return 1;
+		}
+		/* Ακολουθεί έλεγχος για τα ορίσματα που δίνει ο χρήστης. Συχνή είναι η χρήση της συνάρτησης strcmp(). 
+		Εκμεταλλευόμαστε το γεγονός ότι η τιμή που επιστρέφει ότσν τα string ταυτίζονται, είναι 0- */ 
+		if(strcmp(*argv, "--to") == 0) {
+			argc--;
+			argv++;
+			if(strcmp(*argv, "ppm") == 0) {
+				convert_ppm_to_pgm();	
+			}
+			else if(strcmp(*argv, "pgm") == 0) {
+				printf("PGM!\n");
+			}
+			else if(strcmp(*argv, "pbm") == 0) {
+				printf("PBM!\n");
+			}
+			else {
+				fprintf(stderr, "Usage:\n");
+				return 1;
+			}
+		}
+		else if(strcmp(*argv, "--encoding") == 0) {
+			argc--;
+			argv++;
+			if(strcmp(*argv,"binary") == 0) {
+				printf("binary!\n");
+			}
+			else if(strcmp(*argv, "asci") == 0) {
+				printf("assci!!\n");
+			}
+			else {
+				fprintf(stderr, "Usage:\n");
+				return 1;
+			}
+		}
+		else {
+			fprintf(stderr, "Usage:\n");
+		}
+		argc--;
+		argv++;
+	}
+	return 0;
 }
