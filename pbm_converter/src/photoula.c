@@ -1,66 +1,273 @@
-/*Filename: photoula.c | My approach to this problem ;)*/
-
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
+
+
+int rgb_formula(int R, int G, int B) {
+    int answer = (((299*R) + (587*G) + (114*B)) / 1000);
+    return answer;
+}
+
+
+int thresholdT(int max_decoding) {
+	int T = (max_decoding + 1) / 2;
+	return T;
+} 
+
+
+
+
+
+
+
+
+
+
+
+void unsupported_conversion_error() {
+	int ch;
+	ch = getchar();
+	if(ch != 'P') {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+	ch = getchar();
+	if(ch == '2' || ch == '5' || ch == '1' || ch == '4') {
+		fprintf(stderr, "Unsupported conversion\n");
+		exit(1);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*void ppmAsci_to_ppmBinary() {
+	int ch;
+	ch = getchar();
+	if(ch != 'P') {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+	ch = getchar();
+	if(ch != '3') {
+		fprintf(stderr, "Input error\n");
+		exit(1);
+	}
+	if(ch == '1', )
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void convert_ppm_to_pgm() {
+    int ch;
+    ch = getchar();
+    if(ch != 'P') {
+        fprintf(stderr, "Input error!\n");
+        exit(1);
+    }
+    ch = getchar();
+	if(ch == '1' || ch == '4') {
+		fprintf(stderr, "Unsupported conversion\n");
+		exit(1);
+	}
+	if(ch != '3') {
+        fprintf(stderr, "Input error!\n");
+    	exit(1);
+    }
+	
+    /*while(1) {
+        ch = getchar();
+        if(ch == '#') {
+            while((ch = getchar()) != EOF && ch != '\n') continue;
+        }
+        else if(ch == '\r' || ch == '\t' || ch == ' ' || ch == '\n') continue;
+        else break;
+    }
+
+
+
+
+
+
+    int width = 0;
+    while(ch >= '0' && ch <= '9') {
+        width = width*10 + (ch -'0');
+        ch = getchar();
+    }
+    while(1) {
+        if(ch == '#') {
+            while((ch = getchar()) != EOF && ch != '\n') continue;
+        }
+        else if(ch == '\r' || ch == '\t' || ch == ' ' || ch == '\n')  {
+            ch = getchar();
+        }
+        else break;
+    }
+
+
+
+
+
+    int height = 0;
+    while(ch >= '0' && ch <= '9') {
+        height = height*10 + (ch - '0');
+        ch = getchar();
+    }
+
+
+
+    int max = 0;
+    ch = getchar();
+    while(ch >= '0' && ch <= '9') {
+        max = max*10 + (ch - '0');
+        ch = getchar();
+    } */
+
+}
+
+
+
+
+void convert_pgm_to_pbm(int T) {
 	int ch;
-	int width;
-	int height;
-	//int R;
-	//int G;
-	//int B;
-	int max;
-	ch  = getchar();
-	if(ch != 'P') fprintf(stderr, "Not a valid tpye");
 	ch = getchar();
-	if(ch != '3') fprintf(stderr, "Wrong number type. Should be 3!");
-	putchar('\r');
+	if(ch != 'P') {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
 	ch = getchar();
-	if(ch == '#') putchar('\r');
-	width = getchar();
-	puthcar(' ');
-	height = getchar();
-	int rdb[height][width];
-	putchar('\r');
-	while((ch = gecthar()) != ' ') {
-		max = ch; 
+	if(ch != '2' && ch != '3') {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
 	}
-	putchar('\r');
-	/*Χρησιμοποιηούμε nested loop προκειμένου να διατρέξομε όλα τα pixels, 
-	πέντε φορές την κάθε φορά, ανά στήλες (κάθετα).*/
-	
-	// Πρώτη στήλη απο pixel
-	for(int i = 1 ; i <= height ; i++) {
-		for(int j = 1 ; j <= (11*height + 2(height - 1)) ; j++) { // Αν μετρήσουμε τα κένα που έχει η πρώτη γραμμήαπό pixel, σε κάθε στήλη είναι ακριβώς 11
-			if((ch = getchar()) != 0) { // Για το παραπάνω ακραίο βλέπε readme
-				rdb[i - 1][k] = ch;
-			else {
-				continue;
-			}
-		putchar('\r');
-		}
+
+
+
+	while(1) {
+        ch = getchar();
+        if(ch == '#') {
+            while((ch = getchar()) != EOF && ch != '\n') continue;
+        }
+        else if(ch == '\r' || ch == '\t' || ch == ' ' || ch == '\n') continue;
+        else break;
+    }
+
+
+	int count = 0;	
+	int width = 0;
+	while(ch >='0' && ch <= '9') {
+		width = width*10 + (ch - '0');
+		count++;
+		ch = getchar();
 	}
-	
-	
-    /*	for(int i = 1 ; i <= height ; i++) { // Διατρέχομυε όλες τι γραμμές
-		for(int j = 1 ; j <= 4; j++) { // Διατρέχομυε όλα τα περιεχόμενα των γραμμών.
-			if(ch == ' ') { // Μεταξύ των κωδικών RGB ενδέχεται να υπάρχει κενό, επομένως εκτπώνουμε όπου χρειάζεται κενό για να συνεχίσουμε την αναζήτηση.
-				putchar(' ');
-			}
-			ch = getchar();
-			else {
-				if(j == 2) { // Πάντα για j = 2 ή j = 4 υπάρχει κωδικός G ή B αντίστοιχα.
-					G = ch;
-				}
-				else if(j == 4) {
-					B  = ch;
-				}
-			}
-		R = getchar(); // Όταν τελείωσουμε με την πρώτη στήλη, ξανά ο πρώτος χαρακτήρας θα είναι κωδικός R.
-		}
+	if(count == 0) {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
 	}
-} */
+	count = 0;
+
+
+	while(1) {
+	    if(ch == '#') {
+            while((ch = getchar()) != EOF && ch != '\n') continue;
+        }
+        else if(ch == '\r' || ch == '\t' || ch == ' ' || ch == '\n') ch = getchar();
+        else break;    
+	}
+
+
+
+
+
+
+
+
+
+	int height = 0;
+    while(ch >= '0' && ch <= '9') {
+        height = height*10 + (ch - '0');
+		count++;
+        ch = getchar();
+    }
+	if(count == 0) {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+	count = 0;
+
+
+	while(1) {
+        if(ch == '#') {
+            while((ch = getchar()) != EOF && ch != '\n') continue;
+        }
+        else if(ch == '\r' || ch == '\t' || ch == ' ' || ch == '\n') ch = getchar();
+        else break;
+    }
+
+
+
+
+
+
+
+	int max = 0;
+	while(ch >= '0' && ch <= '9') {
+		max= max*10 + (ch - '0');
+		ch = getchar();
+	}
+	if(T > max) {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -69,21 +276,28 @@ void convert_ppm_to_pgm() {
 
 
 int main(int argc, char *argv[]) {
-	char *programname = argv[0]; 
+	//char *programname = argv[0]; 
 	int flag = 0;
 	/*Επειδή αποθηκεύσαμε στον pointer programnmer το όνομα του προγράμματος που βρίσκεται στο argv[0], 
 	μπορούμε να μειώσουμε τον αριθμό των arguments κατά 1 και να α"υξήσουμε" το argv κατά 1.*/
 	argc--; 
 	argv++;
+	if(argc == 0) {
+		fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
+		return 1;
+	}
 	while(argc > 0) {
 		for(int i = 0 ; i < argc ; i++) { // Είναι αναγκαστικό στα ορίσματά μας να υπάρχει το "--to". Για αυτό υλοποιούμε τον παραπάνω βρόχο.
 			if(strcmp(argv[i], "--to") == 0) {
 				flag = 1;
-				break;
+			}
+			if(strcmp(argv[i], "--help") == 0) {
+				printf("Usage: Welcome to photoula. This is a short manual of the program's functionality");
+				return 0;
 			}
 		}
 		if (flag == 0) {
-			fprintf(stderr,"Usage");
+			fprintf(stderr,"Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
 			return 1;
 		}
 		/* Ακολουθεί έλεγχος για τα ορίσματα που δίνει ο χρήστης. Συχνή είναι η χρήση της συνάρτησης strcmp(). 
@@ -91,17 +305,48 @@ int main(int argc, char *argv[]) {
 		if(strcmp(*argv, "--to") == 0) {
 			argc--;
 			argv++;
+			if(argc == 0) {
+				fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
+				return 1;
+			}
 			if(strcmp(*argv, "ppm") == 0) {
-				printf("PPM!\n");	
+				unsupported_conversion_error();
 			}
 			else if(strcmp(*argv, "pgm") == 0) {
-				printf("PGM!\n");
+				if(argc > 2 && (strcmp(argv[1], "--to") == 0) && (strcmp(argv[2], "pgm") == 0)) {
+						fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
+						return 1;
+				}
+				if(argc > 1 && (strcmp(argv[1], "--encoding") != 0)) {
+					fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
+					return 1;
+				}
+				convert_ppm_to_pgm();
 			}
 			else if(strcmp(*argv, "pbm") == 0) {
-				printf("PBM!\n");
+				if((argc > 2) && (strcmp(argv[1], "--threshold") == 0)) {
+					int user_input = atoi(argv[2]);
+					if(argc > 3 && strcmp(argv[3] ,"--threshold") == 0) {
+						fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
+						return 1;
+					}
+					if(user_input < 0) {
+						fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
+						return 1;
+					}
+					if(user_input == 0) {
+						fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
+						return 1;
+					}
+					if(user_input > 0) convert_pgm_to_pbm(user_input);
+				}
+				if(argc == 1) {
+					fprintf(stderr, "Input error!\n");
+					return 1;
+				}
 			}
 			else {
-				fprintf(stderr, "Usage:\n");
+				fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
 				return 1;
 			}
 		}
@@ -115,17 +360,16 @@ int main(int argc, char *argv[]) {
 				printf("assci!!\n");
 			}
 			else {
-				fprintf(stderr, "Usage:\n");
+				fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
 				return 1;
 			}
 		}
 		else {
-			fprintf(stderr, "Usage:\n");
+			fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
+			return 1;
 		}
 		argc--;
 		argv++;
 	}
-
-
 	return 0;
 }
