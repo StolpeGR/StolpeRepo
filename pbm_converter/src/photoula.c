@@ -24,8 +24,7 @@ int thresholdT(int max_decoding) {
 
 
 
-
-void unsupported_conversion_error() {
+void unsupported_conversion_error() {  // Για την ppm μόνο αφού όταν βάζω όρισμα --to ppm και μετά βάλω αρχεία .pgm ή .pbm θα έχω θέμα. Δε μπορεί να συμβεί αντίστροφη μετατροπή;
 	int ch;
 	ch = getchar();
 	if(ch != 'P') {
@@ -56,7 +55,9 @@ void unsupported_conversion_error() {
 
 
 
-/*void ppmAsci_to_ppmBinary() {
+
+
+void convert_ppm_to_pgm() {
 	int ch;
 	ch = getchar();
 	if(ch != 'P') {
@@ -64,96 +65,164 @@ void unsupported_conversion_error() {
 		exit(1);
 	}
 	ch = getchar();
-	if(ch != '3') {
-		fprintf(stderr, "Input error\n");
+	if(ch == '1' || ch == '4') { // Αν πάει και βάλει ο χρήστης εικόνα pbm ενώ έβαλε πριν όρισμα --to pgm τότε είναι λάθος για τον λόγο που αναφλεραμε στο πάνω σχόλιο
+		fprintf(stderr ,"Unsupported conversion\n");
 		exit(1);
 	}
-	if(ch == '1', )
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void convert_ppm_to_pgm() {
-    int ch;
-    ch = getchar();
-    if(ch != 'P') {
-        fprintf(stderr, "Input error!\n");
-        exit(1);
-    }
-    ch = getchar();
-	if(ch == '1' || ch == '4') {
-		fprintf(stderr, "Unsupported conversion\n");
+	if(ch != '3' && ch != '6') {
+		fprintf(stderr, "Input error!\n");
 		exit(1);
 	}
-	if(ch != '3') {
-        fprintf(stderr, "Input error!\n");
-    	exit(1);
-    }
+	int magic_digit = ch;
+	while(1) {
+		ch = getchar();
+		if(ch == '#') {
+			while((ch = getchar()) != EOF && ch != '\n') continue;
+		}
+		else if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') continue;
+		else break;
+	}
+
+
+
+
+	int count = 0;
+	int width = 0;
+	while(ch >= '0' && ch <= '9') {
+		width = width*10 + (ch - '0');
+		count++;
+		ch = getchar();
+	}
+	if(count == 0) {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+	count = 0;
+
+
+
+
+
+
+
+	while(1) {
+		if(ch == '#') {
+			while((ch = getchar()) != EOF && ch != '\n') continue;
+		}
+		else if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+		else break;
+	}
+
+
+
+
+
+
+
+
+	int height = 0;
+	while(ch >= '0' && ch <= '9') {
+		height = height*10 + (ch - '0');
+		count++;
+		ch = getchar();
+	}	
+	if(count == 0) {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+	count = 0;
+
+
+
+
 	
-    /*while(1) {
-        ch = getchar();
-        if(ch == '#') {
-            while((ch = getchar()) != EOF && ch != '\n') continue;
-        }
-        else if(ch == '\r' || ch == '\t' || ch == ' ' || ch == '\n') continue;
-        else break;
-    }
+	while(1) {
+		if(ch == '#') {
+			while((ch = getchar()) != EOF && ch != '\n') continue;
+		}
+		else if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+		else break;
+	}
+
+
+
+
+
+	int max = 0;
+	while(ch >= '0' && ch <= '9') {
+		max = max*10 + (ch - '0');
+		count++;
+		ch = getchar();
+	}
+	if(count == 0) {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+	count = 0;
+	if(max > 255 || max == 0) {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+
+
+	int gray_colors = 0;
+	if(magic_digit == '6') {
+		if(ch != '\r' && ch != '\t' && ch != ' ' && ch != '\n') {
+			fprintf(stderr, "Input error!\n");
+			exit(1);
+		}
+		printf("P5\n");
+		printf("%d %d\n", width, height);
+		printf("%d\n", max);
+		for(int i = 1 ; i <= height*width ; i++) {
+			int R = getchar();
+			int G = getchar();
+			int B = getchar();
+			if(R == EOF || G == EOF || B == EOF || R > max || G > max || B > max ) {
+				fprintf(stderr, "Input error!\n");
+				exit(1);
+			}
+			else {
+				gray_colors = rgb_formula(R, G, B);
+				putchar(gray_colors); 
+			}
+		}
+
+
+
+
+	}
 
 
 
 
 
 
-    int width = 0;
-    while(ch >= '0' && ch <= '9') {
-        width = width*10 + (ch -'0');
-        ch = getchar();
-    }
-    while(1) {
-        if(ch == '#') {
-            while((ch = getchar()) != EOF && ch != '\n') continue;
-        }
-        else if(ch == '\r' || ch == '\t' || ch == ' ' || ch == '\n')  {
-            ch = getchar();
-        }
-        else break;
-    }
+	/*while(1) {
+		if(ch == '#') {
+			while((ch = getchar()) != EOF && ch != '\n') continue;
+		}
+		else if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+		else break;
+	}*/
 
 
 
 
 
-    int height = 0;
-    while(ch >= '0' && ch <= '9') {
-        height = height*10 + (ch - '0');
-        ch = getchar();
-    }
 
 
 
-    int max = 0;
-    ch = getchar();
-    while(ch >= '0' && ch <= '9') {
-        max = max*10 + (ch - '0');
-        ch = getchar();
-    } */
 
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -243,12 +312,23 @@ void convert_pgm_to_pbm(int T) {
 	int max = 0;
 	while(ch >= '0' && ch <= '9') {
 		max= max*10 + (ch - '0');
+		count++;
 		ch = getchar();
 	}
+	if (count == 0 ) {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+	count = 0;
+
+
+
 	if(T > max) {
 		fprintf(stderr, "Input error!\n");
 		exit(1);
 	}
+
+
 
 
 
