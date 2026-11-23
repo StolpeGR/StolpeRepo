@@ -24,7 +24,7 @@ int thresholdT(int max_decoding) {
 
 
 
-void unsupported_conversion_error() {  // Για την ppm μόνο αφού όταν βάζω όρισμα --to ppm και μετά βάλω αρχεία .pgm ή .pbm θα έχω θέμα. Δε μπορεί να συμβεί αντίστροφη μετατροπή;
+void ppm() {  // Για την ppm μόνο αφού όταν βάζω όρισμα --to ppm και μετά βάλω αρχεία .pgm ή .pbm θα έχω θέμα. Δε μπορεί να συμβεί αντίστροφη μετατροπή;
 	int ch;
 	ch = getchar();
 	if(ch != 'P') {
@@ -36,6 +36,32 @@ void unsupported_conversion_error() {  // Για την ppm μόνο αφού ό
 		fprintf(stderr, "Unsupported conversion\n");
 		exit(1);
 	}
+	while(1) {
+		ch = getchar();
+		if(ch == '#') {
+			while((ch = getchar() != EOF) && ch != '\n') continue;
+		}
+		else if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') continue;
+		else break;
+	}
+
+
+	int count = 0;
+	int width = 0;
+	while(ch >= '0' && ch <= '9') {
+		width = width*10 + (ch - '0');
+		count++;
+		ch = getchar();
+	}
+	if(count == 0) {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+
+
+
+
+
 }
 
 
@@ -69,7 +95,7 @@ void convert_ppm_to_pgm() {
 		fprintf(stderr ,"Unsupported conversion\n");
 		exit(1);
 	}
-	if(ch != '3' && ch != '6') {
+	if(ch != '3' && ch != '6' && ch != '5' && ch != '2') {
 		fprintf(stderr, "Input error!\n");
 		exit(1);
 	}
@@ -187,33 +213,84 @@ void convert_ppm_to_pgm() {
 				putchar(gray_colors); 
 			}
 		}
-
-
-
-
 	}
-
-
-
-
-
-
-	/*while(1) {
-		if(ch == '#') {
-			while((ch = getchar()) != EOF && ch != '\n') continue;
+	else if(magic_digit == '3') {
+		while(1) {
+			if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+			else break;
 		}
-		else if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
-		else break;
-	}*/
-
-
-
-
-
-
-
-
-
+		printf("P2\n");
+		printf("%d %d\n", width, height);
+		printf("%d\n", max);
+		for(int i = 1 ; i <= width*height ; i++) {
+			int rgb_array[3] = {0};
+			for(int j = 1 ; j <= 3 ; j++) {
+				while(1) {
+					if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+					else break;
+				}
+				int rgb_color = 0;
+				// int rgb_array[3] = 0; δε μπορώ να τον χρησιμοποιήσω αργότρεα
+				while(ch >= '0' && ch <= '9') {
+					rgb_color = rgb_color*10 + (ch - '0');
+					count++;
+					ch = getchar();
+				}
+				if(count == 0 || rgb_color > max) {
+					fprintf(stderr, "Input error!\n");
+					exit(1);
+				}
+				count = 0;
+				rgb_array[j-1] = rgb_color;
+			}
+			gray_colors = rgb_formula(rgb_array[0], rgb_array[1], rgb_array[2]);
+			printf("%d\n", gray_colors);
+		}
+	}
+	else if(magic_digit == '2') {
+		while(1) {
+			if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+			else break;
+		}
+		printf("P2\n");
+		printf("%d %d\n", width, height);
+		printf("%d\n", max);
+		for(int i = 1 ; i <=  height*width ; i++) {
+			while(1) {
+				if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+				else break;
+			}
+			int g_color = 0;
+			while(ch >= '0' && ch <= '9') {
+				g_color = g_color*10 + (ch -'0');
+				count++;
+				ch = getchar();
+			}
+			if(count == 0 || g_color > max) {
+				fprintf(stderr, "Input error!\n");
+				exit(1);
+			}
+			count = 0;
+			printf("%d\n", g_color);
+		}
+	}
+	else if(magic_digit == '5') {
+		while(1) {
+			if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+			else break;
+		}
+		printf("P5\n");
+		printf("%d %d\n", width, height);
+		printf("%d\n", max);
+		for(int i = 1 ; i <= height*width ; i++) {
+			if(ch == EOF || ch > max) {
+				fprintf(stderr, "Input error!\n");
+				exit(1);
+			}
+			putchar(ch);
+			ch = getchar();
+		}
+	}
 }
 
 
@@ -390,7 +467,7 @@ int main(int argc, char *argv[]) {
 				return 1;
 			}
 			if(strcmp(*argv, "ppm") == 0) {
-				unsupported_conversion_error();
+				ppm();
 			}
 			else if(strcmp(*argv, "pgm") == 0) {
 				if(argc > 2 && (strcmp(argv[1], "--to") == 0) && (strcmp(argv[2], "pgm") == 0)) {
