@@ -24,7 +24,7 @@ int thresholdT(int max_decoding) {
 
 
 
-void ppm() {  // Για την ppm μόνο αφού όταν βάζω όρισμα --to ppm και μετά βάλω αρχεία .pgm ή .pbm θα έχω θέμα. Δε μπορεί να συμβεί αντίστροφη μετατροπή;
+void ppm() {  // Για την ppm μόνο αφού όταν βάζω όρισμα --to ppm και μετά βάλω αρχεία .pgm ή .pbm θα έχω θέμα. Δε μπορεί να συμβεί αντίστροφη μετατροπή.
 	int ch;
 	ch = getchar();
 	if(ch != 'P') {
@@ -36,6 +36,7 @@ void ppm() {  // Για την ppm μόνο αφού όταν βάζω όρισ�
 		fprintf(stderr, "Unsupported conversion\n");
 		exit(1);
 	}
+	//int magic_digit = ch;
 	while(1) {
 		ch = getchar();
 		if(ch == '#') {
@@ -54,6 +55,65 @@ void ppm() {  // Για την ppm μόνο αφού όταν βάζω όρισ�
 		ch = getchar();
 	}
 	if(count == 0) {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+	count = 0;
+
+
+
+
+	while(1) {
+		if(ch == '#') {
+			while((ch = getchar() != EOF) && ch != '\n') continue;
+		}
+		else if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+		else break;
+	}
+
+
+
+
+	int height = 0;
+	while(ch >= '0' && ch <= '9') {
+		height = height*10 + (ch - '0');
+		count++;
+		ch = getchar();
+	}
+	if(count == 0) {
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+	count = 0;
+
+
+
+	while(1) {
+		if(ch == '#') {
+			while((ch = getchar()) != EOF && ch != '\n') continue;
+		}
+		else if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+		else break;
+	}
+
+
+
+
+	int max = 0;
+	while(ch >= '0' && ch <= '9') {
+		max = max*10 + (ch - '0');
+		count++;
+		ch = getchar();
+	}
+	if(count == 0 || max > 255 || max == 0){
+		fprintf(stderr, "Input error!\n");
+		exit(1);
+	}
+	count = 0;
+
+
+	ch = getchar();
+	if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') {
 		fprintf(stderr, "Input error!\n");
 		exit(1);
 	}
@@ -261,7 +321,7 @@ void convert_ppm_to_pgm() {
 				else break;
 			}
 			int g_color = 0;
-			while(ch >= '0' && ch <= '9') {
+			while(ch >= '0' && ch <= '9') { 
 				g_color = g_color*10 + (ch -'0');
 				count++;
 				ch = getchar();
@@ -272,6 +332,11 @@ void convert_ppm_to_pgm() {
 			}
 			count = 0;
 			printf("%d\n", g_color);
+		}
+		while(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar(); // More asci data than width*height
+		if(ch != EOF) {
+			fprintf(stderr, "Input error!\n");
+			exit(1);
 		}
 	}
 	else if(magic_digit == '5') {
@@ -289,6 +354,10 @@ void convert_ppm_to_pgm() {
 			}
 			putchar(ch);
 			ch = getchar();
+		}
+		if(ch != EOF) { // More binary data than width * height
+			fprintf(stderr, "Input error!\n");
+			exit(1);
 		}
 	}
 }
