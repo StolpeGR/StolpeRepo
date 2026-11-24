@@ -36,11 +36,11 @@ void ppm() {  // Για την ppm μόνο αφού όταν βάζω όρισ�
 		fprintf(stderr, "Unsupported conversion\n");
 		exit(1);
 	}
-	//int magic_digit = ch;
+	int magic_digit = ch;
 	while(1) {
 		ch = getchar();
 		if(ch == '#') {
-			while((ch = getchar() != EOF) && ch != '\n') continue;
+			while((ch = getchar()) != EOF && ch != '\n') continue;
 		}
 		else if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') continue;
 		else break;
@@ -65,7 +65,7 @@ void ppm() {  // Για την ppm μόνο αφού όταν βάζω όρισ�
 
 	while(1) {
 		if(ch == '#') {
-			while((ch = getchar() != EOF) && ch != '\n') continue;
+			while((ch = getchar()) != EOF && ch != '\n') continue;
 		}
 		else if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
 		else break;
@@ -111,15 +111,74 @@ void ppm() {  // Για την ppm μόνο αφού όταν βάζω όρισ�
 	}
 	count = 0;
 
+	/*while(1) {
+		if(ch == '#') {
+			while((ch = getchar()) != EOF && ch != '\n') continue;
+		}
+		else break;
+	}*/
 
-	ch = getchar();
-	if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') {
-		fprintf(stderr, "Input error!\n");
-		exit(1);
+	
+	if(magic_digit == '6') {
+		int R;
+		int G;
+		int B;
+		ch = getchar();
+		if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') {
+			fprintf(stderr, "Input error!\n");
+			exit(1);
+		}
+		else R = ch;
+		printf("P6\n");
+		printf("%d %d\n", width, height);
+		printf("%d\n", max);
+		for(int i = 1 ; i <= width*height ; i++) {
+			//int R = getchar();
+			G = getchar();
+			B = getchar();
+			if(R == EOF || G == EOF || B == EOF || R > max || G > max || B > max) {
+				fprintf(stderr, "Input error!\n");
+				exit(1);
+			}
+			putchar(R) ;
+			//putchar(' ');
+			putchar(G);
+			//putchar(' ');
+			putchar(B);
+			//putchar(' ');
+			R = getchar();
+		}
 	}
-
-
-
+	else if(magic_digit == '3') {
+		printf("P3\n");
+		printf("%d %d\n", width, height);
+		printf("%d\n", max);
+		for(int i = 1 ; i <= width*height ; i++) {
+			int rgb_array[3] = {0};
+			for(int j = 1 ; j <= 3 ; j++) {
+				while(1) {
+					if(ch == '#') {
+						while((ch = getchar()) != EOF && ch != '\n') continue;
+					}
+					else if (ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+					else break;
+				}
+				int rgb_color = 0;
+				while(ch >= '0' && ch <= '9') {
+					rgb_color = rgb_color*10 + (ch - '0');
+					count++;
+					ch = getchar();
+				}
+				if(count == 0 || rgb_color > max) {
+					fprintf(stderr, "Input error!\n");
+					exit(1);
+				}
+				rgb_array[j-1] = rgb_color;
+			}
+			printf("%d %d %d\n", rgb_array[0], rgb_array[1], rgb_array[2]);
+		}
+	}
+	
 
 
 }
