@@ -433,7 +433,7 @@ void convert_pgm_to_pbm(int T) {
 		exit(1);
 	}
 	ch = getchar();
-	if(ch != '5' && ch != '2' && ch != '6' && ch != '3' && ch != '4') {
+	if(ch != '5' && ch != '2' && ch != '6' && ch != '3' && ch != '4' && ch != '1') {
 		fprintf(stderr, "Input error!\n");
 		exit(1);
 	}
@@ -508,7 +508,7 @@ void convert_pgm_to_pbm(int T) {
 
 
 
-	int max = 0;
+	/*int max = 0;
 	while(ch >= '0' && ch <= '9') {
 		max= max*10 + (ch - '0');
 		count++;
@@ -523,13 +523,13 @@ void convert_pgm_to_pbm(int T) {
 
 
 	if(ch != '\r' && ch != '\t' && ch != ' ' && ch != '\n') {
-		fprintf(stderr, "Input error\n!");
+		fprintf(stderr, "Input error!\n");
 		exit(1);
-	}
+	}*/
 
 
 
-	int Threshold;
+	/*int Threshold;
 	if(T == EOF) {
 		Threshold = thresholdT(max);
 	}
@@ -539,13 +539,48 @@ void convert_pgm_to_pbm(int T) {
 			fprintf(stderr, "Input error!\n");				
 			exit(1);
 		}
-	}
+	}*/
 
 
 
 	int pixel = 0;
 	int byte = 0;
 	if(magic_digit == '5') {
+		int max = 0;
+		while(ch >= '0' && ch <= '9') {
+			max= max*10 + (ch - '0');
+			count++;
+			ch = getchar();
+		}
+		if (count == 0 ) {
+			fprintf(stderr, "Input error!\n");
+			exit(1);
+		}
+		count = 0;
+
+
+
+		if(ch != '\r' && ch != '\t' && ch != ' ' && ch != '\n') {
+			fprintf(stderr, "Input error!\n");
+			exit(1);
+		}
+
+
+		int Threshold;
+		if(T == EOF) {
+			Threshold = thresholdT(max);
+		}
+		else {
+			Threshold = T;
+			if(Threshold > max ) {
+				fprintf(stderr, "Input error!\n");				
+				exit(1);
+			}
+		}
+
+
+
+
 		printf("P4\n");
 		printf("%d %d\n", width, height); 
 		for(int i = 1 ; i <= height ; i++) { 
@@ -574,6 +609,43 @@ void convert_pgm_to_pbm(int T) {
 		}
 	}
 	else if(magic_digit == '6') {
+		int max = 0;
+		while(ch >= '0' && ch <= '9') {
+			max= max*10 + (ch - '0');
+			count++;
+			ch = getchar();
+		}
+		if (count == 0 ) {
+			fprintf(stderr, "Input error!\n");
+			exit(1);
+		}
+		count = 0;
+
+
+
+		if(ch != '\r' && ch != '\t' && ch != ' ' && ch != '\n') {
+			fprintf(stderr, "Input error!\n");
+			exit(1);
+		}
+
+
+		int Threshold;
+		if(T == EOF) {
+			Threshold = thresholdT(max);
+		}
+		else {
+			Threshold = T;
+			if(Threshold > max ) {
+				fprintf(stderr, "Input error!\n");				
+				exit(1);
+			}
+		}
+
+
+
+
+
+
 		printf("P4\n");
 		printf("%d %d\n", width, height);
 		int gray_colors;
@@ -606,6 +678,43 @@ void convert_pgm_to_pbm(int T) {
 		}
 	}
 	else if(magic_digit == '2') {
+		int max = 0;
+		while(ch >= '0' && ch <= '9') {
+			max= max*10 + (ch - '0');
+			count++;
+			ch = getchar();
+		}
+		if (count == 0 ) {
+			fprintf(stderr, "Input error!\n");
+			exit(1);
+		}
+		count = 0;
+
+
+
+		if(ch != '\r' && ch != '\t' && ch != ' ' && ch != '\n') {
+			fprintf(stderr, "Input error!\n");
+			exit(1);
+		}
+
+
+		int Threshold;
+		if(T == EOF) {
+			Threshold = thresholdT(max);
+		}
+		else {
+			Threshold = T;
+			if(Threshold > max ) {
+				fprintf(stderr, "Input error!\n");				
+				exit(1);
+			}
+		}
+
+
+
+
+
+
 		printf("P1\n");
 		printf("%d %d\n", width, height);
 		for(int i = 1 ; i <= height ; i++) {
@@ -632,6 +741,43 @@ void convert_pgm_to_pbm(int T) {
 		}
 	}
 	else if(magic_digit == '3') {
+		int max = 0;
+		while(ch >= '0' && ch <= '9') {
+			max= max*10 + (ch - '0');
+			count++;
+			ch = getchar();
+		}
+		if (count == 0 ) {
+			fprintf(stderr, "Input error!\n");
+			exit(1);
+		}
+		count = 0;
+
+
+
+		if(ch != '\r' && ch != '\t' && ch != ' ' && ch != '\n') {
+			fprintf(stderr, "Input error!\n");
+			exit(1);
+		}
+
+
+
+		int Threshold;
+		if(T == EOF) {
+			Threshold = thresholdT(max);
+		}
+		else {
+			Threshold = T;
+			if(Threshold > max ) {
+				fprintf(stderr, "Input error!\n");				
+				exit(1);
+			}
+		}
+
+
+
+
+
 		printf("P1\n");
 		printf("%d %d\n", width, height);
 		for(int i = 1 ; i <= width*height ; i++) {
@@ -670,9 +816,33 @@ void convert_pgm_to_pbm(int T) {
 	
 		int pixels_per_row = ((width + 7) / 8)*height;
 		for(int i = 1 ; i <= pixels_per_row ; i++) {
-			int ch = getchar();
+			if(ch == EOF) {
+				fprintf(stderr, "Input error!\n");
+				exit(1);
+			}
 			putchar(ch);
-		} 	
+			ch = getchar();
+		}
+		if(ch != EOF) {
+			fprintf(stderr, "Input error!\n");
+			exit(1);
+		}
+	}
+	else if(magic_digit == '1') {
+		printf("P1\n");
+		printf("%d %d\n", width, height);
+		for(int i = 1 ; i <= width*height ; i++) {
+			while(1) {
+				if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+				else break;
+			}
+			if((ch - '0') != 0 && (ch - '0') != 1) {
+				fprintf(stderr, "Input error!\n");
+				exit(1);
+			}
+			printf("%d\n", (ch - '0'));
+			ch = getchar();
+		}
 	}
 }
 
@@ -763,10 +933,6 @@ int main(int argc, char *argv[]) {
 					if(user_input > 0) convert_pgm_to_pbm(user_input);
 				}
 				else convert_pgm_to_pbm(EOF);
-				/*if(argc == 1) {
-					fprintf(stderr, "Input error!\n");
-					return 1;
-				}*/
 			}
 			else {
 				fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
