@@ -111,12 +111,8 @@ void ppm() {  // Για την ppm μόνο αφού όταν βάζω όρισ�
 	}
 	count = 0;
 
-	/*while(1) {
-		if(ch == '#') {
-			while((ch = getchar()) != EOF && ch != '\n') continue;
-		}
-		else break;
-	}*/
+
+
 
 	
 	if(magic_digit == '6') {
@@ -178,9 +174,6 @@ void ppm() {  // Για την ppm μόνο αφού όταν βάζω όρισ�
 			printf("%d %d %d\n", rgb_array[0], rgb_array[1], rgb_array[2]);
 		}
 	}
-	
-
-
 }
 
 
@@ -440,10 +433,11 @@ void convert_pgm_to_pbm(int T) {
 		exit(1);
 	}
 	ch = getchar();
-	if(ch != '2' && ch != '3') {
+	if(ch != '5' && ch != '2' && ch != '6' && ch != '3' && ch != '4') {
 		fprintf(stderr, "Input error!\n");
 		exit(1);
 	}
+	int magic_digit = ch;
 
 
 
@@ -528,15 +522,158 @@ void convert_pgm_to_pbm(int T) {
 
 
 
-	if(T > max) {
-		fprintf(stderr, "Input error!\n");
+	if(ch != '\r' && ch != '\t' && ch != ' ' && ch != '\n') {
+		fprintf(stderr, "Input error\n!");
 		exit(1);
 	}
 
 
 
+	int Threshold;
+	if(T == EOF) {
+		Threshold = thresholdT(max);
+	}
+	else {
+		Threshold = T;
+		if(Threshold > max ) {
+			fprintf(stderr, "Input error!\n");				
+			exit(1);
+		}
+	}
 
 
+
+	int pixel = 0;
+	int byte = 0;
+	if(magic_digit == '5') {
+		printf("P4\n");
+		printf("%d %d\n", width, height); 
+		for(int i = 1 ; i <= height ; i++) { 
+			for(int j = 1 ; j <= width ; j++) {
+				ch = getchar();
+				if(ch == EOF || ch > max) {
+						fprintf(stderr, "Input error!\n");
+						exit(1);
+				}
+				if(ch <= Threshold) pixel = 1;
+				else pixel = 0;
+				byte = (byte << 1) | pixel;
+				count++;
+				if(count == 8) {
+					putchar(byte);
+					byte = 0;
+					count = 0;
+				}	
+			}
+			if(count > 0) {
+				byte = (byte << (8 - count));
+				putchar(byte);
+				byte = 0;
+				count = 0;
+			}
+		}
+	}
+	else if(magic_digit == '6') {
+		printf("P4\n");
+		printf("%d %d\n", width, height);
+		int gray_colors;
+		for(int i = 1 ; i <= height ; i++) {
+			for(int j = 1 ; j <= width ; j++) {
+				int R = getchar();
+				int G = getchar();
+				int B = getchar();
+				if(R == EOF || G == EOF || B == EOF || R > max || G > max || B > max ) {
+					fprintf(stderr, "Input error!\n");
+					exit(1);
+				}
+				else gray_colors = rgb_formula(R, G, B);
+				if(gray_colors <= Threshold) pixel = 1;
+				else pixel = 0;
+				byte = (byte << 1) | pixel;
+				count++;
+				if(count == 8) {
+					putchar(byte);
+					byte = 0;
+					count = 0;
+				}
+			}
+			if(count > 0) {
+				byte = (byte << (count - 8));
+				putchar(byte);
+				byte = 0;
+				count = 0;
+			}
+		}
+	}
+	else if(magic_digit == '2') {
+		printf("P1\n");
+		printf("%d %d\n", width, height);
+		for(int i = 1 ; i <= height ; i++) {
+			for(int j = 1 ; j <= width ; j++) {
+				while(1) {
+					if(ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+					else break;
+				}
+				int g_color = 0;
+				while(ch >= '0' && ch <= '9') { 
+					g_color = g_color*10 + (ch -'0');
+					count++;
+					ch = getchar();
+				}
+				if(count == 0 || g_color > max) {
+					fprintf(stderr, "Input error!\n");
+					exit(1);
+				}
+				count = 0;
+				if(g_color <= Threshold) pixel = 1;
+				else pixel = 0;
+				printf("%d\n", pixel);
+			}
+		}
+	}
+	else if(magic_digit == '3') {
+		printf("P1\n");
+		printf("%d %d\n", width, height);
+		for(int i = 1 ; i <= width*height ; i++) {
+			int rgb_array[3] = {0};
+			for(int j = 1 ; j <= 3 ; j++) {
+				while(1) {
+					if(ch == '#') {
+						while((ch = getchar()) != EOF && ch != '\n') continue;
+					}
+					else if (ch == '\n' || ch == '\t' || ch == ' ' || ch == '\r') ch = getchar();
+					else break;
+				}
+				int rgb_color = 0;
+				while(ch >= '0' && ch <= '9') {
+					rgb_color = rgb_color*10 + (ch - '0');
+					count++;
+					ch = getchar();
+				}
+				if(count == 0 || rgb_color > max) {
+					fprintf(stderr, "Input error!\n");
+					exit(1);
+				}
+				rgb_array[j-1] = rgb_color;
+			}
+			int gray_colors = rgb_formula(rgb_array[0], rgb_array[1], rgb_array[2]);
+			if(gray_colors <= Threshold) pixel = 1;
+			else pixel = 0;
+			printf("%d\n", pixel);
+		}
+	}
+	else if(magic_digit == '4') {
+		printf("P4\n");
+		printf("%d %d\n", width, height);
+		/* Μία γραμμή η οποία ειναι πολλαπλάσιο του 8, περιέχει στην δυαδικη κωδικοποίηση n*byte οπου n % 8 == 0. Αυτό σημαίνει οτι αν έχουμε μια γραμμή που δεν είναι πολλαπλάσιο του 8 τότε,
+		 	πρέπει να συμπεριλάβουμε ένα οριακά ολοκληρμένα byte έτσι ώστε να είμαστε σίγουροι ότι δεν θα χαθούν pixels. */
+	
+		int pixels_per_row = ((width + 7) / 8)*height;
+		for(int i = 1 ; i <= pixels_per_row ; i++) {
+			int ch = getchar();
+			putchar(ch);
+		} 	
+	}
 }
 
 
@@ -625,10 +762,11 @@ int main(int argc, char *argv[]) {
 					}
 					if(user_input > 0) convert_pgm_to_pbm(user_input);
 				}
-				if(argc == 1) {
+				else convert_pgm_to_pbm(EOF);
+				/*if(argc == 1) {
 					fprintf(stderr, "Input error!\n");
 					return 1;
-				}
+				}*/
 			}
 			else {
 				fprintf(stderr, "Usage: ./photoula --to <ppm|pgm|pbm> [options]\n");
